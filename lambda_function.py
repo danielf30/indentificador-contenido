@@ -18,7 +18,7 @@ def lambda_handler(event, context):
         # Realizar el scan con filtro
         response = table.scan(
             FilterExpression=(
-                'status = :status_val AND contains(DateScheduled, :date_val)'
+                'Phase = :status_val AND contains(DateScheduled, :date_val)'
             ),
             ExpressionAttributeValues={
                 ':status_val': 'sin_publicar',
