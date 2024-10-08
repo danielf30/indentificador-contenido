@@ -15,10 +15,10 @@ phases:
       - echo Construcción iniciada en `date`
       # Instalar las dependencias en el directorio 'package'
       - pip install -r requirements.txt -t .
-      - zip -r LinkedinPublisher.zip ./* -x buildspec.yml -x .gitignore
+      - zip -r indentificador-contenido.zip ./* -x buildspec.yml -x .gitignore
   post_build:
     commands:
       - echo Construcción completada en `date`
 artifacts:
   files:
-    - LinkedinPublisher.zip
+    - indentificador-contenido.zip
