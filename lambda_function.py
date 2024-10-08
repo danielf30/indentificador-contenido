@@ -9,7 +9,7 @@ step_functions = boto3.client('stepfunctions')
 
 # Nombre de la tabla de DynamoDB y ARN de Step Function
 TABLE_NAME = 'links'
-STATE_MACHINE_ARN = 'arn:aws:states:us-east-1:123456789012:stateMachine:tu-step-function'  # Cambia este ARN
+STATE_MACHINE_ARN = 'arn:aws:states:us-east-1:058264293944:stateMachine:MyStateMachine-0admxb4mz'  # Cambia este ARN
 
 def lambda_handler(event, context):
     # Referencia a la tabla
