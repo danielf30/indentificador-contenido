@@ -2,6 +2,7 @@ import json
 import boto3
 import datetime
 from botocore.exceptions import ClientError
+from decimal import Decimal
 
 # Inicializar los clientes de DynamoDB y Step Functions
 dynamodb = boto3.resource('dynamodb')
@@ -10,6 +11,16 @@ step_functions = boto3.client('stepfunctions')
 # Nombre de la tabla de DynamoDB y ARN de Step Function
 TABLE_NAME = 'links'
 STATE_MACHINE_ARN = 'arn:aws:states:us-east-1:058264293944:stateMachine:MyStateMachine-0admxb4mz'  # Cambia este ARN
+
+# Función para convertir Decimals en float
+def convert_decimals(obj):
+    if isinstance(obj, list):
+        return [convert_decimals(i) for i in obj]
+    elif isinstance(obj, dict):
+        return {k: convert_decimals(v) for k, v in obj.items()}
+    elif isinstance(obj, Decimal):
+        return float(obj)
+    return obj
 
 def lambda_handler(event, context):
     # Referencia a la tabla
@@ -30,6 +41,8 @@ def lambda_handler(event, context):
 
         if items:
             print(f"Se encontraron {len(items)} registros sin publicar.")
+            # Convertir los Decimals en float antes de serializar
+            items = convert_decimals(items)
             input_data = json.dumps(items)
             
             # Iniciar Step Function
@@ -46,7 +59,6 @@ def lambda_handler(event, context):
     except ClientError as e:
         print(e.response['Error']['Message'])
         raise e
-
 
 # Simular la ejecución local con un evento de prueba
 if __name__ == "__main__":
